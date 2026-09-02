@@ -191,10 +191,10 @@ public class RunTrip
     {
         var sortList = g.OrderBy(s => s.StartTime)
                         .ThenBy(e => e.EndTime);
-        var mergList = new List<(int starTime, int endTime)>();
+        var mergList = new List<(int startTime, int endTime)>();
 
 
-        foreach (var d in g)
+        foreach (var d in sortList)
         {
 
             if (mergList.Count == 0)
@@ -202,11 +202,12 @@ public class RunTrip
                 mergList.Add((d.StartTime, d.EndTime));
                 continue;
             }
-            var last = mergList[mergList.Count - 1];
+            // var last = mergList[mergList.Count - 1];
+            var last = mergList[^1];
             if (d.StartTime <= last.endTime)
             {
                 if (d.EndTime > last.endTime)
-                    mergList[mergList.Count - 1] = (last.starTime, d.EndTime);
+                    mergList[^1] = (last.startTime, d.EndTime);
             }
             else
                 mergList.Add((d.StartTime, d.EndTime));

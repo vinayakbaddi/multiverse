@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GrokTrip")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+26f2be210063a56449eb8297413681713492ae90")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+568a6a8b69c360d671385bd5920b241a2505fc87")]
 [assembly: System.Reflection.AssemblyProductAttribute("GrokTrip")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GrokTrip")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
