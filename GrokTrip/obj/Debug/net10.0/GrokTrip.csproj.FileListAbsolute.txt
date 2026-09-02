@@ -1,0 +1,15 @@
+C:\Users\vinay\source\multiverse\GrokTrip\obj\Debug\net10.0\GrokTrip.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\vinay\source\multiverse\GrokTrip\obj\Debug\net10.0\GrokTrip.AssemblyInfoInputs.cache
+C:\Users\vinay\source\multiverse\GrokTrip\obj\Debug\net10.0\GrokTrip.AssemblyInfo.cs
+C:\Users\vinay\source\multiverse\GrokTrip\obj\Debug\net10.0\GrokTrip.csproj.CoreCompileInputs.cache
+C:\Users\vinay\source\multiverse\GrokTrip\obj\Debug\net10.0\GrokTrip.sourcelink.json
+C:\Users\vinay\source\multiverse\GrokTrip\bin\Debug\net10.0\GrokTrip.exe
+C:\Users\vinay\source\multiverse\GrokTrip\bin\Debug\net10.0\GrokTrip.deps.json
+C:\Users\vinay\source\multiverse\GrokTrip\bin\Debug\net10.0\GrokTrip.runtimeconfig.json
+C:\Users\vinay\source\multiverse\GrokTrip\bin\Debug\net10.0\GrokTrip.dll
+C:\Users\vinay\source\multiverse\GrokTrip\bin\Debug\net10.0\GrokTrip.pdb
+C:\Users\vinay\source\multiverse\GrokTrip\obj\Debug\net10.0\GrokTrip.dll
+C:\Users\vinay\source\multiverse\GrokTrip\obj\Debug\net10.0\refint\GrokTrip.dll
+C:\Users\vinay\source\multiverse\GrokTrip\obj\Debug\net10.0\GrokTrip.pdb
+C:\Users\vinay\source\multiverse\GrokTrip\obj\Debug\net10.0\GrokTrip.genruntimeconfig.cache
+C:\Users\vinay\source\multiverse\GrokTrip\obj\Debug\net10.0\ref\GrokTrip.dll
