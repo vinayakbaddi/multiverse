@@ -73,9 +73,9 @@ public class RunTrip
                 TotalTrips = trips
             };
         })
-        .Where(x=> x.TotalDistance > minDistance)
-        .OrderByDescending(x=> x.TotalDistance)
-        .ThenBy(v=> v.VehicleId, StringComparer.Ordinal)
+        .Where(x => x.TotalDistance > minDistance)
+        .OrderByDescending(x => x.TotalDistance)
+        .ThenBy(v => v.VehicleId, StringComparer.Ordinal)
         .ToList();
 
 
@@ -99,37 +99,8 @@ public class RunTrip
             {
             }
         }
-
-        // foreach (var vr in filTrips)
-        // {
-        //     var veh = filTrips.Where(x => x.VehicleId == vr.VehicleId);
-        //     var v=  new VehicleReport()
-        //     {
-        //         AverageDistance = GetAverage(veh),
-        //         TotalDistance = GetDistance(veh),
-        //         TotalTrips = GetTotalTrips(veh),
-        //         VehicleId = vr.VehicleId
-        //     };
-
-        //     Console.WriteLine($" {v.VehicleId} -> Trips {v.TotalTrips} , Total : {v.TotalDistance} Avg : {v.AverageDistance}");
-        //     vehicleReports.Add(v);
-        // }
         return vehicleReports;
 
-    }
-
-    public double GetDistance(IEnumerable<Trip> trips)
-    {
-        return trips.Sum(x => x.Distance);
-    }
-    public int GetTotalTrips(IEnumerable<Trip> trips)
-    {
-        return trips.Count();
-    }
-
-    public double GetAverage(IEnumerable<Trip> trips)
-    {
-        return trips.Average(x => x.Distance);
     }
 
     public void Init()
@@ -152,5 +123,93 @@ public class RunTrip
         {
             Console.WriteLine($"VehicleId: {v.VehicleId}, Total Distance: {v.TotalDistance} Average {v.AverageDistance} Total Trips : {v.TotalTrips}");
         }
+    }
+
+    public void MergeIntervals()
+    {
+        var trips = new List<TripInterval>
+{
+    new TripInterval { VehicleId = "V001", StartTime = 10,  EndTime = 30  },
+    new TripInterval { VehicleId = "V001", StartTime = 25,  EndTime = 45  },  // overlaps with previous
+    new TripInterval { VehicleId = "V001", StartTime = 50,  EndTime = 60  },  // separate
+    new TripInterval { VehicleId = "V002", StartTime = 100, EndTime = 120 },
+    new TripInterval { VehicleId = "V002", StartTime = 115, EndTime = 140 },  // overlaps
+    new TripInterval { VehicleId = "V002", StartTime = 200, EndTime = 210 },
+    new TripInterval { VehicleId = "V003", StartTime = 5,   EndTime = 15  },
+    new TripInterval { VehicleId = "V003", StartTime = 20,  EndTime = 25  },  // contiguous? No – gap
+    new TripInterval { VehicleId = "V001", StartTime = 40,  EndTime = 35  },  // invalid
+};
+
+        var vt = CalculateActiveTime(trips, 5);
+        foreach(var v in vt)
+        {
+            Console.WriteLine($"VT {v.VehicleId} TAT {v.TotalActiveTime} MergedTripCount {v.MergedTripCount}");
+        }
+
+    }
+    public class TripInterval
+    {
+        public string VehicleId { get; set; }
+        public int StartTime { get; set; }
+        public int EndTime { get; set; }
+    }
+
+    public class ActiveTimeReport
+    {
+        public string VehicleId { get; set; }
+        public int TotalActiveTime { get; set; }   // in minutes
+        public int MergedTripCount { get; set; }    // number of intervals after merging
+    }
+
+    public List<ActiveTimeReport> CalculateActiveTime(
+        List<TripInterval> trips,
+        int minActiveTime)
+    {
+
+        var rep = trips.Where(t => t.EndTime > t.StartTime)
+        .GroupBy(g => g.VehicleId)
+        .Select(g =>
+        {
+            var m = MergeIntervals(g);
+            return new ActiveTimeReport()
+            {
+                TotalActiveTime = m.Sum(t => t.endTime - t.startTime),
+                MergedTripCount = m.Count,
+                VehicleId = g.Key
+
+            };
+        })
+        .Where(a => a.TotalActiveTime >= minActiveTime)
+        .OrderByDescending(o => o.TotalActiveTime)
+        .ThenBy(v => v.VehicleId, StringComparer.Ordinal)
+        .ToList();
+
+        return rep;
+    }
+
+    private List<(int startTime, int endTime)> MergeIntervals(IEnumerable<TripInterval> g)
+    {
+        var sortList = g.OrderBy(s => s.StartTime)
+                        .ThenBy(e => e.EndTime);
+        var mergList = new List<(int starTime, int endTime)>();
+
+
+        foreach (var d in g)
+        {
+
+            if (mergList.Count == 0)
+                mergList.Add((d.StartTime, d.EndTime));
+
+            var last = mergList[mergList.Count - 1];
+            if (d.StartTime <= last.endTime)
+            {
+                last = (d.StartTime, d.EndTime);
+            }
+            else
+                mergList.Add((d.StartTime, d.EndTime));
+        }
+
+        return mergList;
+
     }
 }
