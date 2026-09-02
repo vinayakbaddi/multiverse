@@ -140,8 +140,8 @@ public class RunTrip
     new TripInterval { VehicleId = "V001", StartTime = 40,  EndTime = 35  },  // invalid
 };
 
-        var vt = CalculateActiveTime(trips, 5);
-        foreach(var v in vt)
+        var vt = CalculateActiveTime(trips, 1);
+        foreach (var v in vt)
         {
             Console.WriteLine($"VT {v.VehicleId} TAT {v.TotalActiveTime} MergedTripCount {v.MergedTripCount}");
         }
@@ -198,12 +198,15 @@ public class RunTrip
         {
 
             if (mergList.Count == 0)
+            {
                 mergList.Add((d.StartTime, d.EndTime));
-
+                continue;
+            }
             var last = mergList[mergList.Count - 1];
             if (d.StartTime <= last.endTime)
             {
-                last = (d.StartTime, d.EndTime);
+                if (d.EndTime > last.endTime)
+                    mergList[mergList.Count - 1] = (last.starTime, d.EndTime);
             }
             else
                 mergList.Add((d.StartTime, d.EndTime));
